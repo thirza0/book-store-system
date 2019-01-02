@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class Author(models.Model):
     name = models.CharField('名字', max_length=10)
     email = models.EmailField('電子郵件', unique=True)

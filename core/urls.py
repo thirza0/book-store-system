@@ -14,10 +14,22 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from django.contrib.auth.views import LoginView , LogoutView
+from django.shortcuts import redirect
 from django.urls import path, include
+from .views import permission_denied
 
+
+login_params = {
+    'template_name':'users/login.html',
+    'redirect_authenticated_user':True,
+}
 
 urlpatterns = [
+    path('', lambda request: redirect('books:index'), name='root'),
+    path('login/', LoginView.as_view(**login_params),name='login'),
+    path('logout/', LogoutView.as_view(), name ='logout'),
+    path('403/', permission_denied, name='permission_denied'),
     path('books/', include('books.urls')),
 
     path('jet/', include('jet.urls', 'jet')),
